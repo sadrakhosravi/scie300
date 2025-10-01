@@ -1,0 +1,33 @@
+joke_id,text,group_true,theme,attention_check
+H001,"I told my computer I needed a break, and it said: no problem, I'll go to sleep.",H,Technology,false
+H002,"I'm reading a book on anti-gravity. It's impossible to put down.",H,Everyday life,false
+H003,"Why don't scientists trust atoms? Because they make up everything!",H,Other,false
+H004,"I went to a seafood disco last week... and pulled a mussel.",H,Food,false
+H005,"My cat's favorite composer is Chopin. Mainly because of the Minute Waltz.",H,Animals,false
+H006,"I used to hate facial hair, but then it grew on me.",H,Everyday life,false
+H007,"The early bird might get the worm, but the second mouse gets the cheese.",H,Animals,false
+H008,"I told my boss three companies were after me and I needed a raise to stay. He asked which companies and I said gas, electric, and cable.",H,Work/School,false
+H009,"My therapist says I have a preoccupation with vengeance. We'll see about that.",H,Relationships,false
+H010,"I bought the world's worst thesaurus yesterday. Not only is it terrible, it's terrible.",H,Everyday life,false
+AI001,"Why did the function get promoted? Because it had great returns.",AI_N,Technology,false
+AI002,"My password is incorrect. No wait, that's my password: 'incorrect'.",AI_N,Technology,false
+AI003,"Why did the programmer break up with the internet? Too many connection issues.",AI_N,Technology,false
+AI004,"I told my laptop a joke about recursion. It kept laughing until it crashed.",AI_N,Technology,false
+AI005,"The optimist sees the glass half full. The pessimist sees it half empty. The programmer sees a buffer overflow.",AI_N,Technology,false
+AI006,"Why don't robots ever panic? They have great error handling.",AI_N,Technology,false
+AI007,"My smart fridge is so advanced it tells me when the milk expires. I told it that's what noses are for.",AI_N,Technology,false
+AI008,"Why did the database administrator leave his wife? She had too many relations.",AI_N,Technology,false
+AI009,"I asked my AI assistant to tell me a joke. It said 'Your coding skills.' I said 'That's not funny.' It said 'You're right, that's tragic.'",AI_N,Technology,false
+AI010,"Why don't algorithms ever get lost? They always know their next step.",AI_N,Technology,false
+AIT001,"I scheduled my dreams with a calendar app. Now I'm having recurring nightmares.",AI_T,Everyday life,false
+AIT002,"My fitness tracker congratulated me for taking 10,000 steps. I was just anxious and pacing around my room.",AI_T,Everyday life,false
+AIT003,"I tried to teach my dog to use Zoom, but he kept trying to sniff the other participants.",AI_T,Animals,false
+AIT004,"My GPS has trust issues. Every time I take a different route, it says 'Recalculating' in a very disappointed voice.",AI_T,Technology,false
+AIT005,"I ordered food delivery and the app said 'Your driver is nearby.' Turns out 'nearby' means 'in a parallel universe where traffic doesn't exist.'",AI_T,Food,false
+AIT006,"My work-from-home setup is so professional that my cat now schedules meetings to sit on my keyboard.",AI_T,Work/School,false
+AIT007,"I told my smart speaker to play relaxing music. It played the sound of dial-up internet. Apparently, it has a twisted sense of nostalgia.",AI_T,Technology,false
+AIT008,"My dating app matched me with someone who shares my interests: avoiding social situations and binge-watching shows.",AI_T,Relationships,false
+AIT009,"I tried meal prepping for the week. By Tuesday, I was eating cereal for dinner and calling it 'deconstructed breakfast.'",AI_T,Food,false
+AIT010,"My houseplants have a group chat where they discuss my inability to keep them alive. I'm pretty sure they're planning something.",AI_T,Everyday life,false
+ATT001,"(Attention check) Please rate funniness as 3 and guess the source as AI.",AI_N,Other,true
+ATT002,"(Attention check) For this item, please select 4 for funniness and Human as the source.",H,Other,true

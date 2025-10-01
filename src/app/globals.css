@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root { 
+  color-scheme: light dark; 
+  --background: #ffffff;
+  --foreground: #171717;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+html, body { 
+  height: 100%; 
+}
+
+body { 
+  background: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
+  color: #0f172a;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(to bottom right, #0f172a, #020617);
+    color: #f1f5f9;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+  }
+}
+
+/* Add shadow-soft class */
+.shadow-soft {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes loading-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -20px, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes loading-glow {
+  0% {
+    opacity: 0.65;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0.65;
+    transform: scale(0.95);
+  }
+}
+
+.loading-shimmer {
+  background-size: 200% 200%;
+  animation: loading-shimmer 18s ease-in-out infinite;
+}
+
+.loading-float {
+  animation: loading-float 24s ease-in-out infinite;
+}
+
+.loading-glow {
+  animation: loading-glow 8s ease-in-out infinite;
+}
+
+.animate-spin-slowest {
+  animation: spin 7.5s linear infinite;
+}
