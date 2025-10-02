@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## SCIE 300 Humor Survey
 
-## Getting Started
+A Next.js application for running the SCIE 300 humor perception study. Participants rate short-form jokes, and completed sessions can be exported as CSV locally or pushed directly to the project repository for centralized collection.
 
-First, run the development server:
+## Quick start
 
-```bash
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) and follow the onboarding card to start the survey.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## GitHub submission workflow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+When a participant finishes the survey, the completion card now includes a **Submit responses to GitHub** button. Clicking it will:
 
-## Learn More
+1. Serialize the captured responses into a CSV with deterministic columns.
+2. POST the payload to `/api/submissions`.
+3. The server route commits the CSV to `submissions/<session-id>.csv` in this repository (default branch `main`).
 
-To learn more about Next.js, take a look at the following resources:
+Duplicate session IDs are rejected (HTTP 409) to preserve one file per anonymous respondent.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Create a `.env.local` file in the project root before using the upload button:
 
-## Deploy on Vercel
+```dotenv
+# Required: GitHub Personal Access Token with `repo` scope (or appropriate fine-grained access)
+GITHUB_TOKEN=ghp_yourTokenGoesHere
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Required: target repository in owner/name format
+GITHUB_REPOSITORY=sadrakhosravi/scie300
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Optional: override the target branch (defaults to "main")
+# GITHUB_BRANCH=main
+```
+
+Restart the dev server after changing environment variables so the server route can pick them up.
+
+## Data files
+
+- `public/jokes.csv` — source material presented to participants.
+- `submissions/` — destination folder for committed survey exports.
+
+## Testing
+
+```powershell
+npm test
+```
+
+Vitest covers shared utilities (e.g., ID generation and CSV helpers). Add tests alongside the relevant files under `src/lib` as new logic is introduced.

@@ -23,12 +23,12 @@ export function SurveyItem({
   const [guess, setGuess] = useState<'Human' | 'AI' | "Can't tell" | null>(null);
   const [humorType, setHumorType] = useState<typeof HUMOR_TYPES[number] | null>(null);
   const [tags, setTags] = useState<string[]>([]);
-  const [theme, setTheme] = useState<string>('Other');
+  const [theme, setTheme] = useState<string | null>(null);
   const [appropriate, setAppropriate] = useState<'Yes' | 'No' | null>(null);
   const [offensive, setOffensive] = useState<0 | 1 | 2 | null>(0);
   const [comments, setComments] = useState('');
 
-  const ready = Boolean(funniness && humanLike && guess && humorType && appropriate !== null && offensive !== null);
+  const ready = Boolean(funniness && humanLike && guess && humorType && theme && appropriate !== null && offensive !== null);
 
   const pct = Math.round(((index) / total) * 100);
 
@@ -188,7 +188,7 @@ export function SurveyItem({
                 guess_source: guess!,
                 humor_type: humorType!,
                 device_tags: tags.join(';'),
-                theme,
+                theme: theme!,
                 appropriateness_class: appropriate!,
                 offensiveness_0_2: offensive!,
                 comments_optional: comments || undefined,

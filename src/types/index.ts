@@ -34,14 +34,11 @@ export const HUMOR_TYPES = [
 ] as const;
 
 export const DEVICE_TAGS = [
-  'Wordplay/Pun',
-  'Observational/Relatable',
-  'Narrative/Situational',
-  'Absurd/Surreal',
-  'Sarcasm/Irony',
-  'Topical/Cultural reference',
-  'Misdirection/Switch',
-  'Self-deprecation',
+  'Observational',
+  'One-liner',
+  'Situational',
+  'Pun',
+  'Absurdism',
 ] as const;
 
-export const THEMES = ['Animals', 'Technology', 'Relationships', 'Work/School', 'Everyday life', 'Food', 'Other'] as const;
+export const THEMES = ['Animal', 'School/Work', 'Everyday life', 'Relationships', 'Food'] as const;

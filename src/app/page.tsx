@@ -22,6 +22,9 @@ export default function Page() {
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
   const [progressLoaded, setProgressLoaded] = useState(false);
+  const [submitState, setSubmitState] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submissionUrl, setSubmissionUrl] = useState<string | null>(null);
   const itemStartRef = useRef<number>(0);
   const jokeSignature = useMemo(() => {
     if (!jokes.length) return '';
@@ -179,6 +182,9 @@ export default function Page() {
       setResponses([]);
       setOrder([]);
       setIdx(0);
+      setSubmitState('idle');
+      setSubmitError(null);
+      setSubmissionUrl(null);
       itemStartRef.current = 0;
     },
     []
@@ -200,6 +206,9 @@ export default function Page() {
     setResponses([]);
     setStarted(true);
     setFinished(false);
+    setSubmitState('idle');
+    setSubmitError(null);
+    setSubmissionUrl(null);
   };
 
   const current = useMemo(() => {
@@ -221,6 +230,60 @@ export default function Page() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+
+  const submitToGitHub = useCallback(async () => {
+    if (submitState === 'uploading' || submitState === 'success') {
+      return;
+    }
+
+    if (!respondentId) {
+      setSubmitState('error');
+      setSubmitError('Missing session identifier. Please refresh and try again.');
+      return;
+    }
+
+    if (!responses.length) {
+      setSubmitState('error');
+      setSubmitError('No responses found to submit.');
+      return;
+    }
+
+    setSubmitState('uploading');
+    setSubmitError(null);
+    setSubmissionUrl(null);
+
+    try {
+      const res = await fetch('/api/submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sessionId: respondentId, responses }),
+      });
+
+      let data: unknown = null;
+      try {
+        data = await res.json();
+      } catch (error) {
+        // ignore json parse errors
+      }
+
+      if (!res.ok) {
+        const message = typeof (data as any)?.error === 'string' ? (data as any).error : `Unable to submit survey (status ${res.status}).`;
+        throw new Error(message);
+      }
+
+      const payload = (data ?? {}) as { html_url?: string | null };
+      if (payload.html_url) {
+        setSubmissionUrl(payload.html_url);
+      }
+      setSubmitState('success');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unexpected error submitting survey.';
+      setSubmitState('error');
+      setSubmitError(message);
+    }
+  }, [respondentId, responses, submitState]);
 
   return (
     <>
@@ -418,6 +481,9 @@ export default function Page() {
               setIdx(idx + 1);
             } else {
               setFinished(true);
+              setSubmitState('idle');
+              setSubmitError(null);
+              setSubmissionUrl(null);
             }
           }}
         />
@@ -433,19 +499,66 @@ export default function Page() {
             <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">All done — thank you! 🎉</h2>
             <p className="text-sm text-slate-600 dark:text-slate-300">You completed <strong>{responses.length}</strong> items.</p>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col items-center gap-4">
               <button
-                onClick={downloadCSV}
-                className="rounded-2xl bg-gradient-to-r from-sky-400 via-indigo-500 to-fuchsia-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_15px_35px_rgba(56,189,248,0.35)] transition-all duration-300 hover:shadow-[0_20px_45px_rgba(56,189,248,0.45)]"
+                type="button"
+                onClick={submitToGitHub}
+                disabled={submitState === 'uploading' || submitState === 'success'}
+                className="inline-flex min-w-[12rem] items-center justify-center rounded-3xl bg-gradient-to-r from-emerald-400 via-sky-500 to-indigo-500 px-8 py-3 text-base font-semibold text-white shadow-[0_18px_40px_rgba(56,189,248,0.35)] transition-all duration-300 hover:shadow-[0_24px_50px_rgba(56,189,248,0.45)] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Download responses CSV
+                {submitState === 'uploading'
+                  ? 'Submitting…'
+                  : submitState === 'success'
+                  ? 'Submitted!'
+                  : 'Submit'}
               </button>
-              <button
-                onClick={() => resetSurvey(false)}
-                className="rounded-2xl border border-white/60 bg-white/60 px-5 py-2.5 text-sm font-semibold text-slate-700 backdrop-blur-xl transition-colors duration-200 hover:border-sky-300/60 hover:bg-white/80 dark:border-white/15 dark:bg-white/5 dark:text-slate-100 dark:hover:border-sky-300/40"
-              >
-                Restart
-              </button>
+
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={downloadCSV}
+                  className="inline-flex items-center justify-center rounded-2xl border border-white/50 bg-white/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700 backdrop-blur-xl transition-colors duration-200 hover:border-sky-300/50 hover:bg-white/80 dark:border-white/15 dark:bg-white/5 dark:text-slate-100 dark:hover:border-sky-300/40"
+                >
+                  Download CSV
+                </button>
+                {submitState === 'success' && (
+                  <button
+                    type="button"
+                    onClick={() => resetSurvey(false)}
+                    className="inline-flex items-center justify-center rounded-2xl border border-emerald-200/60 bg-emerald-50/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700 transition-colors duration-200 hover:border-emerald-300/70 hover:bg-emerald-100 dark:border-emerald-500/25 dark:bg-emerald-500/15 dark:text-emerald-200"
+                  >
+                    Restart
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-1.5 text-center" aria-live="polite">
+              {submitState === 'uploading' && (
+                <p className="text-sm text-slate-600 dark:text-slate-300">Uploading your responses to GitHub…</p>
+              )}
+              {submitState === 'error' && submitError && (
+                <p className="text-sm text-red-600 dark:text-red-300">{submitError}</p>
+              )}
+              {submitState === 'success' && (
+                <p className="text-sm text-emerald-600 dark:text-emerald-300">
+                  Submission saved to GitHub
+                  {submissionUrl ? (
+                    <>
+                      {' '}
+                      <a
+                        href={submissionUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="underline decoration-emerald-400 decoration-2 underline-offset-4 hover:decoration-emerald-500"
+                      >
+                        View file
+                      </a>
+                    </>
+                  ) : null}
+                  .
+                </p>
+              )}
             </div>
 
             <details className="mt-2 text-sm text-slate-600/90 dark:text-slate-300/80">
