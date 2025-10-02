@@ -14,7 +14,7 @@ export function UploadZone({ onFile }: UploadZoneProps) {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
       <div
         onDragOver={(e) => e.preventDefault()}
         onDrop={onDrop}
@@ -24,14 +24,14 @@ export function UploadZone({ onFile }: UploadZoneProps) {
         <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="absolute inset-[1px] rounded-[1.45rem] bg-gradient-to-r from-sky-400/25 via-indigo-500/20 to-fuchsia-500/20" />
         </div>
-        <div className="relative z-10 flex items-center justify-between gap-4">
-          <div>
+        <div className="relative z-10 flex flex-col gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+          <div className="flex-1">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">Upload jokes</p>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-200">
               Drag & drop your <span className="font-mono">jokes.csv</span> here or click to browse.
             </p>
           </div>
-          <span className="flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400/80 via-indigo-500/80 to-fuchsia-500/80 text-white shadow-[0_10px_25px_rgba(56,189,248,0.32)]">
+          <span className="mx-auto flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400/80 via-indigo-500/80 to-fuchsia-500/80 text-xl text-white shadow-[0_10px_25px_rgba(56,189,248,0.32)] sm:mx-0 sm:h-10 sm:w-10 sm:text-base">
             ⬆️
           </span>
         </div>

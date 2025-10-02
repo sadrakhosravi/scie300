@@ -33,7 +33,7 @@ export function SurveyItem({
   const pct = Math.round(((index) / total) * 100);
 
   const optionBase =
-    'relative overflow-hidden rounded-2xl border px-4 py-2 text-sm font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900';
+    'relative w-full overflow-hidden rounded-2xl border px-4 py-2 text-sm font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-auto dark:focus-visible:ring-offset-slate-900';
   const optionSelected =
     'border-transparent bg-gradient-to-r from-sky-400 via-indigo-500 to-fuchsia-500 text-white shadow-[0_12px_30px_rgba(56,189,248,0.35)]';
   const optionIdle =
@@ -47,12 +47,12 @@ export function SurveyItem({
       </div>
 
       <div className="relative space-y-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.36em] text-slate-500 dark:text-slate-400">Item {index + 1} of {total}</p>
             {/* <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">{joke.theme || 'Humor prompt'}</p> */}
           </div>
-          <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 backdrop-blur md:w-52 dark:bg-slate-800/70">
+          <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/60 backdrop-blur sm:max-w-sm md:w-52 dark:bg-slate-800/70">
             <div
               className="h-full rounded-full bg-gradient-to-r from-sky-400 via-indigo-500 to-fuchsia-500 shadow-[0_0_18px_rgba(56,189,248,0.45)] transition-[width] duration-500 ease-out"
               style={{ width: `${pct}%` }}
@@ -60,18 +60,18 @@ export function SurveyItem({
           </div>
         </div>
 
-  <blockquote className="relative overflow-hidden rounded-3xl border border-white/60 bg-white/70 p-6 text-lg leading-relaxed text-slate-800 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:text-slate-100">
+    <blockquote className="relative overflow-hidden rounded-3xl border border-white/60 bg-white/70 p-5 text-base leading-relaxed text-slate-800 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] backdrop-blur-xl sm:p-6 sm:text-lg dark:border-white/10 dark:bg-white/5 dark:text-slate-100">
           <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.12),transparent_70%)] opacity-80" />
           <span className="relative z-10 block">{joke.text}</span>
         </blockquote>
 
-        <div className="grid gap-6">
+  <div className="grid gap-6">
           <Likert label="1) Funniness" value={funniness} setValue={setFunniness} />
           <Likert label="2) Human-likeness" value={humanLike} setValue={setHumanLike} />
 
           <div className="space-y-3">
-            <label className="block text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">3) Guess the source</label>
-            <div className="flex flex-wrap gap-2.5">
+            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">3) Guess the source</label>
+            <div className="grid gap-2.5 sm:flex sm:flex-wrap">
               {['Human', 'AI', "Can't tell"].map((v) => (
                 <button
                   key={v}
@@ -85,8 +85,8 @@ export function SurveyItem({
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">4) Humor type (choose one)</label>
-            <div className="grid gap-2.5 md:grid-cols-3">
+            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">4) Humor type (choose one)</label>
+            <div className="grid gap-2.5 sm:grid-cols-2 md:grid-cols-3">
               {HUMOR_TYPES.map((v) => (
                 <button
                   key={v}
@@ -101,7 +101,7 @@ export function SurveyItem({
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">5) Device tags (select all that apply)</label>
+            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">5) Device tags (select all that apply)</label>
             <div className="flex flex-wrap gap-2.5">
               {DEVICE_TAGS.map((t) => (
                 <Tag
@@ -115,8 +115,8 @@ export function SurveyItem({
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">6) Theme</label>
-            <div className="flex flex-wrap gap-2.5">
+            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">6) Theme</label>
+            <div className="grid gap-2.5 sm:flex sm:flex-wrap">
               {THEMES.map((t) => (
                 <button
                   key={t}
@@ -129,10 +129,10 @@ export function SurveyItem({
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-3">
-              <label className="block text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">7) Appropriate for class?</label>
-              <div className="flex gap-2.5">
+              <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">7) Appropriate for class?</label>
+              <div className="flex flex-wrap gap-2.5">
                 {(['Yes', 'No'] as const).map((v) => (
                   <button
                     key={v}
@@ -145,8 +145,8 @@ export function SurveyItem({
               </div>
             </div>
             <div className="space-y-3">
-              <label className="block text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">8) Offensiveness</label>
-              <div className="flex gap-2.5">
+              <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">8) Offensiveness</label>
+              <div className="flex flex-wrap gap-2.5">
                 {[0, 1, 2].map((v) => (
                   <button
                     key={v}
@@ -161,20 +161,20 @@ export function SurveyItem({
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">9) Optional comment</label>
+            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">9) Optional comment</label>
             <div className="relative overflow-hidden rounded-3xl border border-white/60 bg-white/60 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
               <textarea
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
                 maxLength={120}
-                className="h-28 w-full resize-none rounded-3xl bg-transparent px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus-visible:outline-none dark:text-slate-100 dark:placeholder:text-slate-500"
+                className="h-32 w-full resize-none rounded-3xl bg-transparent px-4 py-3 text-sm text-slate-700 placeholder:text-slate-400 focus-visible:outline-none dark:text-slate-100 dark:placeholder:text-slate-500 sm:h-28"
                 placeholder="Max 120 characters"
               />
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-3 pt-2 sm:flex-row sm:items-center">
+  <div className="flex flex-col items-stretch justify-between gap-3 pt-2 sm:flex-row sm:items-center">
           <div className="text-xs text-slate-500 dark:text-slate-400">
             Respondent: <span className="font-mono text-slate-800 dark:text-slate-200">{respondentId}</span>
           </div>
@@ -194,7 +194,7 @@ export function SurveyItem({
                 comments_optional: comments || undefined,
               });
             }}
-            className={`rounded-2xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 ${
+            className={`w-full rounded-2xl px-6 py-2.5 text-sm font-semibold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-auto dark:focus-visible:ring-offset-slate-900 ${
               ready
                 ? 'bg-gradient-to-r from-sky-400 via-indigo-500 to-fuchsia-500 text-white shadow-[0_15px_35px_rgba(56,189,248,0.35)] hover:shadow-[0_20px_40px_rgba(56,189,248,0.45)]'
                 : 'cursor-not-allowed border border-slate-200/70 bg-white/60 text-slate-500 backdrop-blur md:border-slate-200/40 dark:border-white/10 dark:bg-white/5 dark:text-slate-400'

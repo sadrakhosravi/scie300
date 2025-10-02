@@ -302,13 +302,13 @@ export default function Page() {
         />
       )}
       
-      <main className="rounded-2xl relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-sky-50/35 to-slate-100 px-4 py-10 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+  <main className="relative min-h-screen overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 via-sky-50/35 to-slate-100 px-3 pb-4 pt-4 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 sm:px-6 sm:pb-16 sm:pt-14 lg:px-8">
         <div className="pointer-events-none fixed inset-0" aria-hidden />
         <button
           type="button"
           onClick={() => resetSurvey(true)}
           disabled={!hasProgress || !progressLoaded}
-          className="fixed right-6 top-6 z-50 inline-flex items-center gap-2 rounded-2xl border border-white/60 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-700 shadow-[0_12px_30px_rgba(15,23,42,0.12)] backdrop-blur-2xl transition-all duration-200 hover:border-sky-300/60 hover:bg-white/80 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/15 dark:bg-white/10 dark:text-slate-200 dark:hover:border-sky-300/40 dark:hover:text-white dark:focus-visible:ring-offset-slate-900"
+          className="fixed right-4 top-[calc(1rem+env(safe-area-inset-top,0px))] z-50 inline-flex items-center justify-center gap-2 rounded-2xl border border-white/60 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-700 shadow-[0_12px_30px_rgba(15,23,42,0.12)] backdrop-blur-2xl transition-all duration-200 hover:border-sky-300/60 hover:bg-white/85 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/15 dark:bg-white/10 dark:text-slate-200 dark:hover:border-sky-300/40 dark:hover:text-white dark:focus-visible:ring-offset-slate-900 sm:right-6"
           aria-disabled={!hasProgress || !progressLoaded}
         >
           Reset Survey
@@ -571,6 +571,17 @@ export default function Page() {
         </section>
       )}
         </div>
+
+        <footer className="relative mx-auto mt-12 flex max-w-5xl items-center justify-center rounded-3xl border border-white/60 bg-white/70 px-4 py-6 text-xs font-semibold uppercase tracking-[0.24em] text-slate-600 shadow-[0_15px_35px_rgba(15,23,42,0.14)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-300">
+          <a
+            href="https://sadrakhosravi.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sky-600 text-center transition-colors duration-200 hover:text-sky-500 dark:text-sky-300 dark:hover:text-sky-200"
+          >
+            Designed and developed by Sadra Khosravi for SCIE 300 Class
+          </a>
+        </footer>
     </main>
     </>
   );

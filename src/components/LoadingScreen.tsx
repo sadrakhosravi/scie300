@@ -77,14 +77,14 @@ export default function LoadingScreen({
         <div className="loading-float absolute -bottom-36 right-1/4 h-80 w-80 rounded-full bg-fuchsia-200/40 blur-3xl dark:bg-fuchsia-500/25" style={{ animationDelay: '1.5s' }} />
       </div>
 
-      <div className="relative w-full max-w-3xl px-6">
+  <div className="relative w-full max-w-3xl px-4 sm:px-6">
         <div className="relative rounded-[36px]">
           <div className="pointer-events-none absolute inset-0 rounded-[36px] opacity-80 blur-2xl loading-shimmer bg-[conic-gradient(from_120deg_at_50%_50%,rgba(56,189,248,0.18),rgba(236,72,153,0.16),rgba(129,140,248,0.2),rgba(56,189,248,0.18))]" />
 
           <div className="relative overflow-hidden rounded-[32px] border border-white/60 bg-white/70 shadow-[0_25px_55px_rgba(15,23,42,0.18)] backdrop-blur-3xl dark:border-white/10 dark:bg-slate-900/75">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.55),transparent_65%)] dark:bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.16),transparent_70%)]" />
 
-          	<div className="relative px-8 py-10 md:px-12 md:py-12">
+	  	<div className="relative px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12">
               <div className="flex flex-col items-center gap-8 md:flex-row md:items-start md:gap-10">
                 <div className="relative">
                   <div className="loading-glow absolute inset-0 -z-10 rounded-full bg-sky-400/30 blur-2xl dark:bg-sky-500/35" />
