@@ -1,0 +1,4 @@
+respondent_id,joke_order,joke_id,group_true,funniness_1_5,human_likeness_1_5,guess_source,humor_type,device_tags,theme,appropriateness_class,offensiveness_0_2,attention_check_pass,time_to_answer_ms,comments_optional
+S300-EWWD9X,1,H003,H,4,4,AI,Pun/Wordplay,Topical/Cultural reference,Other,Yes,0,NA,9758,
+S300-EWWD9X,2,H002,H,2,3,AI,Pun/Wordplay,,Other,Yes,0,NA,7784,
+S300-EWWD9X,3,H001,H,3,3,Can't tell,Pun/Wordplay,Narrative/Situational,Other,No,0,NA,10513,
