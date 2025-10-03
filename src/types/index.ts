@@ -15,8 +15,7 @@ export type ResponseRow = {
   funniness_1_5: number;
   human_likeness_1_5: number;
   guess_source: 'Human' | 'AI' | "Can't tell";
-  humor_type: 'Pun/Wordplay' | 'Observational' | 'Situational/Narrative' | 'Absurd/Surreal' | 'One-liner/Anti-joke' | 'Unsure';
-  device_tags: string; // semicolon-separated
+  humor_type: 'Observational' | 'One-liner' | 'Situational' | 'Pun' | 'Absurdism';
   theme: string;
   appropriateness_class: 'Yes' | 'No';
   offensiveness_0_2: 0 | 1 | 2;
@@ -26,15 +25,6 @@ export type ResponseRow = {
 };
 
 export const HUMOR_TYPES = [
-  'Pun/Wordplay',
-  'Observational',
-  'Situational/Narrative',
-  'Absurd/Surreal',
-  'One-liner/Anti-joke',
-  'Unsure',
-] as const;
-
-export const DEVICE_TAGS = [
   'Observational',
   'One-liner',
   'Situational',

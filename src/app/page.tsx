@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Papa from 'papaparse';
-import { JokeRow, ResponseRow } from '@/types';
+import { JokeRow, ResponseRow, HUMOR_TYPES } from '@/types';
 import { randomId, csvToJokes, shuffle } from '@/lib/utils';
 import { SurveyItem } from '@/components/SurveyItem';
 import LoadingScreen from '@/components/LoadingScreen';
@@ -19,7 +19,6 @@ const RESPONSE_COLUMNS = [
   'human_likeness_1_5',
   'guess_source',
   'humor_type',
-  'device_tags',
   'theme',
   'appropriateness_class',
   'offensiveness_0_2',
@@ -114,6 +113,15 @@ export default function Page() {
               }
               if (typeof base.joke_text !== 'string') {
                 base.joke_text = '';
+              }
+              if ('device_tags' in base) {
+                delete (base as Record<string, unknown>).device_tags;
+              }
+              const humorTypeRaw = typeof base.humor_type === 'string' ? base.humor_type : '';
+              if (!HUMOR_TYPES.includes(humorTypeRaw as (typeof HUMOR_TYPES)[number])) {
+                base.humor_type = HUMOR_TYPES[0];
+              } else {
+                base.humor_type = humorTypeRaw;
               }
               return base;
             })
@@ -332,7 +340,7 @@ export default function Page() {
         />
       )}
       
-  <main className="relative min-h-screen overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 via-sky-50/35 to-slate-100 px-3 pb-4 pt-4 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 sm:px-6 sm:pb-16 sm:pt-14 lg:px-8">
+  <main className="relative min-h-screen overflow-hidden rounded-3xl bg-gradient-to-br from-slate-50 via-sky-50/35 to-slate-100 px-3 pb-4 pt-4 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 sm:px-6 sm:pb-16 sm:pt-14 lg:px-8">
         <div className="pointer-events-none fixed inset-0" aria-hidden />
         <button
           type="button"
@@ -595,7 +603,7 @@ export default function Page() {
             <details className="mt-2 text-sm text-slate-600/90 dark:text-slate-300/80">
               <summary className="cursor-pointer font-semibold text-slate-700 dark:text-slate-200">CSV columns</summary>
               <code className="mt-2 block overflow-x-auto whitespace-pre rounded-3xl border border-white/60 bg-white/70 p-4 text-xs text-slate-700 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] backdrop-blur-xl dark:border-white/15 dark:bg-white/5 dark:text-slate-200">
-                respondent_id, joke_order, joke_id, joke_text, group_true, funniness_1_5, human_likeness_1_5, guess_source, humor_type, device_tags, theme, appropriateness_class, offensiveness_0_2, attention_check_pass, time_to_answer_ms, comments_optional
+                respondent_id, joke_order, joke_id, joke_text, group_true, funniness_1_5, human_likeness_1_5, guess_source, humor_type, theme, appropriateness_class, offensiveness_0_2, attention_check_pass, time_to_answer_ms, comments_optional
               </code>
             </details>
           </div>

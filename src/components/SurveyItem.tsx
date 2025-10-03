@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { JokeRow, ResponseRow, HUMOR_TYPES, DEVICE_TAGS, THEMES } from '@/types';
+import { JokeRow, ResponseRow, HUMOR_TYPES, THEMES } from '@/types';
 import { Likert } from './Likert';
-import { Tag } from './Tag';
 
 interface SurveyItemProps {
   index: number;
@@ -23,12 +22,11 @@ export function SurveyItem({
   const [humanLike, setHumanLike] = useState<number | null>(null);
   const [guess, setGuess] = useState<'Human' | 'AI' | "Can't tell" | null>(null);
   const [humorType, setHumorType] = useState<typeof HUMOR_TYPES[number] | null>(null);
-  const [tags, setTags] = useState<string[]>([]);
   const [theme, setTheme] = useState<string | null>(null);
   const [appropriate, setAppropriate] = useState<'Yes' | 'No' | null>(null);
   const [offensive, setOffensive] = useState<0 | 1 | 2 | null>(0);
   const [comments, setComments] = useState('');
-  const [showDeviceInfo, setShowDeviceInfo] = useState(false);
+  const [showHumorGuide, setShowHumorGuide] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -36,13 +34,13 @@ export function SurveyItem({
   }, []);
 
   useEffect(() => {
-    if (!showDeviceInfo) {
+    if (!showHumorGuide) {
       return;
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setShowDeviceInfo(false);
+        setShowHumorGuide(false);
       }
     };
 
@@ -54,7 +52,7 @@ export function SurveyItem({
       document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [showDeviceInfo]);
+  }, [showHumorGuide]);
 
   const ready = Boolean(funniness && humanLike && guess && humorType && theme && appropriate !== null && offensive !== null);
 
@@ -113,7 +111,20 @@ export function SurveyItem({
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">4) Humor type (choose one)</label>
+            <div className="flex items-start gap-2">
+              <label className="flex-1 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">4) Humor type (choose one)</label>
+              <button
+                type="button"
+                onClick={() => setShowHumorGuide(true)}
+                className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200/70 bg-white/70 text-slate-500 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:text-slate-700 dark:border-white/20 dark:bg-white/10 dark:text-slate-300 dark:focus-visible:ring-offset-slate-900"
+              >
+                <span className="sr-only">See humor type definitions</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                  <circle cx="12" cy="12" r="10" className="opacity-20" />
+                  <path d="M12 11a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0v-4a1 1 0 0 0-1-1Zm0-4a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z" />
+                </svg>
+              </button>
+            </div>
             <div className="grid gap-2.5 sm:grid-cols-2 md:grid-cols-3">
               {HUMOR_TYPES.map((v) => (
                 <button
@@ -125,38 +136,11 @@ export function SurveyItem({
                 </button>
               ))}
             </div>
-            <p className="text-[0.7rem] text-slate-500 dark:text-slate-400">Pick the dominant mechanism. Use "Unsure" only if nothing fits after a re‑read.</p>
+            <p className="text-[0.7rem] text-slate-500 dark:text-slate-400">Pick the dominant mechanism. If nothing fits at first, re-read and choose the closest match.</p>
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-start gap-2">
-              <label className="flex-1 text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">5) Device tags (select all that apply)</label>
-              <button
-                type="button"
-                onClick={() => setShowDeviceInfo(true)}
-                className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-200/70 bg-white/70 text-slate-500 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:text-slate-700 dark:border-white/20 dark:bg-white/10 dark:text-slate-300 dark:focus-visible:ring-offset-slate-900"
-              >
-                <span className="sr-only">What do the joke types mean?</span>
-                <svg aria-hidden="true" viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
-                  <circle cx="12" cy="12" r="10" className="opacity-20" />
-                  <path d="M12 11a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0v-4a1 1 0 0 0-1-1Zm0-4a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2.5">
-              {DEVICE_TAGS.map((t) => (
-                <Tag
-                  key={t}
-                  label={t}
-                  selected={tags.includes(t)}
-                  onToggle={() => setTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]))}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">6) Theme</label>
+            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">5) Theme</label>
             <div className="grid gap-2.5 sm:flex sm:flex-wrap">
               {THEMES.map((t) => (
                 <button
@@ -172,7 +156,7 @@ export function SurveyItem({
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-3">
-              <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">7) Appropriate for class?</label>
+              <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">6) Appropriate for class?</label>
               <div className="flex flex-wrap gap-2.5">
                 {(['Yes', 'No'] as const).map((v) => (
                   <button
@@ -186,7 +170,7 @@ export function SurveyItem({
               </div>
             </div>
             <div className="space-y-3">
-              <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">8) Offensiveness</label>
+              <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">7) Offensiveness</label>
               <div className="flex flex-wrap gap-2.5">
                 {[0, 1, 2].map((v) => (
                   <button
@@ -202,7 +186,7 @@ export function SurveyItem({
           </div>
 
           <div className="space-y-3">
-            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">9) Optional comment</label>
+            <label className="block text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-slate-400">8) Optional comment</label>
             <div className="relative overflow-hidden rounded-3xl border border-white/60 bg-white/60 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
               <textarea
                 value={comments}
@@ -228,7 +212,6 @@ export function SurveyItem({
                 human_likeness_1_5: humanLike!,
                 guess_source: guess!,
                 humor_type: humorType!,
-                device_tags: tags.join(';'),
                 theme: theme!,
                 appropriateness_class: appropriate!,
                 offensiveness_0_2: offensive!,
@@ -245,14 +228,14 @@ export function SurveyItem({
           </button>
         </div>
       </div>
-      {isClient && showDeviceInfo
+      {isClient && showHumorGuide
         ? createPortal(
             <div
               className="fixed inset-0 z-[999] flex items-start justify-center overflow-y-auto bg-slate-950/50 px-4 py-8 backdrop-blur-sm"
               role="dialog"
               aria-modal="true"
-              aria-labelledby="device-tag-dialog-title"
-              onClick={() => setShowDeviceInfo(false)}
+              aria-labelledby="humor-type-dialog-title"
+              onClick={() => setShowHumorGuide(false)}
             >
               <div
                 className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-white/70 bg-white/95 p-6 text-slate-700 shadow-[0_28px_80px_rgba(15,23,42,0.35)] backdrop-blur-3xl dark:border-white/10 dark:bg-slate-900/95 dark:text-slate-200"
@@ -260,14 +243,14 @@ export function SurveyItem({
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p id="device-tag-dialog-title" className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">
-                      Joke type quick guide
+                    <p id="humor-type-dialog-title" className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">
+                      Humor type quick guide
                     </p>
-                    <h3 className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">Understanding the tags</h3>
+                    <h3 className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">Understanding each choice</h3>
                   </div>
                   <button
                     type="button"
-                    onClick={() => setShowDeviceInfo(false)}
+                    onClick={() => setShowHumorGuide(false)}
                     className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/70 bg-white/80 text-slate-500 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:text-slate-700 dark:border-white/15 dark:bg-white/10 dark:text-slate-300 dark:focus-visible:ring-offset-slate-900"
                     aria-label="Close dialog"
                   >

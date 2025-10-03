@@ -14,7 +14,6 @@ const RESPONSE_COLUMNS = [
   'human_likeness_1_5',
   'guess_source',
   'humor_type',
-  'device_tags',
   'theme',
   'appropriateness_class',
   'offensiveness_0_2',
