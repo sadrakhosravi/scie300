@@ -10,6 +10,7 @@ export type ResponseRow = {
   respondent_id: string;
   joke_order: number;
   joke_id: string;
+  joke_text: string;
   group_true?: string;
   funniness_1_5: number;
   human_likeness_1_5: number;

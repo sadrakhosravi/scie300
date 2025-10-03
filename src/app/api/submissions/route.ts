@@ -8,6 +8,7 @@ const RESPONSE_COLUMNS = [
   'respondent_id',
   'joke_order',
   'joke_id',
+  'joke_text',
   'group_true',
   'funniness_1_5',
   'human_likeness_1_5',

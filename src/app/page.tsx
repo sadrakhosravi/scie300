@@ -9,6 +9,25 @@ import LoadingScreen from '@/components/LoadingScreen';
 
 const PROGRESS_STORAGE_KEY = 'survey_progress_v1';
 
+const RESPONSE_COLUMNS = [
+  'respondent_id',
+  'joke_order',
+  'joke_id',
+  'joke_text',
+  'group_true',
+  'funniness_1_5',
+  'human_likeness_1_5',
+  'guess_source',
+  'humor_type',
+  'device_tags',
+  'theme',
+  'appropriateness_class',
+  'offensiveness_0_2',
+  'attention_check_pass',
+  'time_to_answer_ms',
+  'comments_optional',
+] as const;
+
 export default function Page() {
   // Initialize with a stable default value to prevent hydration mismatch
   const [initialLoading, setInitialLoading] = useState(true);
@@ -86,7 +105,18 @@ export default function Page() {
       const sanitizedResponses = Array.isArray(parsed.responses)
         ? (parsed.responses as unknown[])
             .filter((r): r is Record<string, unknown> => !!r && typeof r === 'object')
-            .map((r) => ({ ...r, respondent_id: respondentId }))
+            .map((r) => {
+              const base = { ...r, respondent_id: respondentId } as Record<string, unknown>;
+              const jokeId = typeof base.joke_id === 'string' ? base.joke_id : null;
+              if (typeof base.joke_text !== 'string') {
+                const match = jokeId ? jokes.find((j) => String(j.joke_id ?? '') === jokeId) : undefined;
+                base.joke_text = match?.text ?? '';
+              }
+              if (typeof base.joke_text !== 'string') {
+                base.joke_text = '';
+              }
+              return base;
+            })
         : [];
 
       setResponses(sanitizedResponses as ResponseRow[]);
@@ -219,7 +249,7 @@ export default function Page() {
 
   function downloadCSV() {
     const rows = responses.map((r: ResponseRow) => ({ ...r }));
-    const csv = Papa.unparse(rows);
+    const csv = Papa.unparse(rows, { columns: RESPONSE_COLUMNS as unknown as string[] });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -472,6 +502,7 @@ export default function Page() {
               respondent_id: respondentId,
               joke_order: idx + 1,
               joke_id: current.joke_id,
+              joke_text: current.text,
               group_true: current.group_true ?? '',
               attention_check_pass: pass,
               time_to_answer_ms: elapsed,
@@ -564,7 +595,7 @@ export default function Page() {
             <details className="mt-2 text-sm text-slate-600/90 dark:text-slate-300/80">
               <summary className="cursor-pointer font-semibold text-slate-700 dark:text-slate-200">CSV columns</summary>
               <code className="mt-2 block overflow-x-auto whitespace-pre rounded-3xl border border-white/60 bg-white/70 p-4 text-xs text-slate-700 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] backdrop-blur-xl dark:border-white/15 dark:bg-white/5 dark:text-slate-200">
-                respondent_id, joke_order, joke_id, group_true, funniness_1_5, human_likeness_1_5, guess_source, humor_type, device_tags, theme, appropriateness_class, offensiveness_0_2, attention_check_pass, time_to_answer_ms, comments_optional
+                respondent_id, joke_order, joke_id, joke_text, group_true, funniness_1_5, human_likeness_1_5, guess_source, humor_type, device_tags, theme, appropriateness_class, offensiveness_0_2, attention_check_pass, time_to_answer_ms, comments_optional
               </code>
             </details>
           </div>

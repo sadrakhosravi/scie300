@@ -9,7 +9,7 @@ interface SurveyItemProps {
   total: number;
   joke: JokeRow;
   respondentId: string;
-  onSubmit: (row: Omit<ResponseRow, 'respondent_id' | 'joke_order' | 'joke_id' | 'group_true' | 'attention_check_pass' | 'time_to_answer_ms'>) => void;
+  onSubmit: (row: Omit<ResponseRow, 'respondent_id' | 'joke_order' | 'joke_id' | 'joke_text' | 'group_true' | 'attention_check_pass' | 'time_to_answer_ms'>) => void;
 }
 
 export function SurveyItem({
